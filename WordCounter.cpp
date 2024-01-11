@@ -1,55 +1,53 @@
 //
-//  main.cpp
-//  WordCounter
+//  WordCounter.cpp
 //
 //  Created by ARCK on 2020/7/30.
-//  Copyright © 2020 Connor Zhan. All rights reserved.
+//  Copyright © 2024 Connor Zhan. All rights reserved.
 //
 #include<iostream>
-#include<fstream>
-#include<cstdlib>
-#include<cstdio>
 
-using namespace std;
 
-string text;
-int counter = 0,item = 0;
-
-int dddc(string wz)
+void countWords(const std::string& text, int& wordCount, int& charCount)
 {
-
-    int t=1;
-
-    for(int i=0;i>-1;i++)
-
+    bool inWord = false;
+    
+    for(char c: text)
     {
-
-        if (wz[i]==' ') t++;
-
-        else if(wz[i]=='\0') break;
+        charCount++;
+        
+        if(std::isspace(c))
+        {
+            inWord = false;
+        }
+        else if(!inWord && (std::isalnum(c)))
+        {
+            inWord = true;
+            wordCount++;
+        }
+        
 
     }
-
-    return t;
-
 }
+
 
 int main()
 {
-    cout<<"Just input the sentences:"<<endl;
-    getline(cin,text);
+
+    int wordCount = 0;
+    int charCount = 0;
+
+    std::string text;
     
-    
-    while(text[item] == ' ')   //ignore space
+    std::cout << "Just input sentences(press Ctrl+D to finish):" << std::endl;
+    while(getline(std::cin,text))
     {
-        item+=1;
+        countWords(text,wordCount,charCount);
     }
-    counter = dddc(text);
     
     
-    cout<<endl;
-    cout<<"The counter is "<<counter<<endl;
-    
+    std::cout << "Word count: " << wordCount << std::endl;
+    std::cout << "Char count: " << charCount << std::endl;
+
     return 0;
     
 }
